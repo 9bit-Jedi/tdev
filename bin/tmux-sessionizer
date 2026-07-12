@@ -46,7 +46,7 @@ if ! tmux has-session -t "$selected_name" 2>/dev/null; then
         -n agent \
         -c "$selected"
 
-    tmux send-keys -t "$selected_name":agent 'agy' C-m
+    tmux send-keys -t "$selected_name":agent 'claude' C-m
 
     # Go back to edit window
     tmux select-window -t "$selected_name":edit
