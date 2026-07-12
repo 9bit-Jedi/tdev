@@ -1,0 +1,167 @@
+alias sudo='sudo '
+
+alias gs='git status'
+alias gs="git status"
+alias gl="git pull"
+alias ga="git add"
+alias gc="git commit -m"
+alias gp="git push"
+alias gamend="git commit --amend --no-edit"
+alias gsw="git switch"
+alias gsm="git switch master"
+alias gb='git branch'
+alias gco='git checkout'
+alias gcm='git checkout main'
+alias gcl='git clone'
+alias glog='git log --oneline --graph --all'
+alias gd='git diff'
+alias gamend='git commit --amend --no-edit'
+alias gundo='git reset --soft HEAD~1'
+
+alias gw='git worktree'
+alias gwl='git worktree list'
+alias gwa='git worktree add'
+alias gwr='git worktree remove'
+
+# gwt <branch> — create (or attach if it exists) a sibling worktree for <branch>
+gwt() {
+  local branch="$1" root name path
+  root=$(git rev-parse --show-toplevel) || return 1
+  name=$(basename "$root")
+  path="${root}-${branch//\//-}"
+  if git show-ref --verify --quiet "refs/heads/$branch"; then
+    git worktree add "$path" "$branch"
+  else
+    git worktree add "$path" -b "$branch"
+  fi
+  cd "$path"
+}
+
+alias gcp='git cherry-pick'
+alias gst='git stash'
+alias gstp='git stash pop'
+alias grb='git rebase -i'
+alias grbc='git rebase --continue'
+alias grba='git rebase --abort'
+
+alias tn='tmux new -s'
+alias tl='tmux ls'
+alias ta='tmux attach-session -t'
+alias tk='tmux kill-session -t'
+alias tks='tmux kill-server'
+alias tm='tmux-sessionizer'
+alias ts='tmux-sessionizer'
+
+# Neovim
+alias vim='nvim'
+alias vi='nvim'
+
+# Antigravity CLI
+alias ag='agy'
+alias agp='agy -p'
+
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ll='eza -alF --git --icons'
+alias la='eza -A --icons'
+alias l='eza --icons'
+alias lt='eza --tree --level=2 --icons'
+alias cat='bat --paging=never'
+
+alias c='clear'
+alias h='history'
+alias please='sudo $(fc -ln -1)'  # reruns last command with sudo
+
+alias mkdir='mkdir -pv'
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
+alias grep='grep --color=auto'
+
+alias myip='curl ifconfig.me'
+alias ping='ping -c 5'
+alias ports='netstat -tulanp'
+
+# Docker
+alias dc="docker compose"
+alias d='docker'
+alias dps='docker ps'
+alias dpsa='docker ps -a'
+alias di='docker images'
+alias db='docker build .'
+alias dba='docker build -t'
+alias dcexec='docker compose exec api bash'
+alias drm='docker rm'
+alias drmi='docker rmi'
+alias dexec='docker exec -it'
+alias dlogs='docker logs -f'
+
+# Django (Python)
+alias dj='python manage.py'
+alias djrun='python manage.py runserver'
+alias djmmig='python manage.py makemigrations'
+alias djmig='python manage.py migrate'
+alias djs='python manage.py shell'
+alias djt='python manage.py test'
+
+alias zshrc="source ~/.zshrc"
+
+
+# shell function :
+
+# fkill — fuzzy-find and kill a process (replaces `ports`/manual grep+kill)
+fkill() {
+  local pid
+  pid=$(ps -eo pid,ppid,user,%cpu,%mem,comm --sort=-%cpu | fzf --header-lines=1 | awk '{print $1}')
+  [ -n "$pid" ] && kill -${1:-9} "$pid"
+}
+
+# fcd — fuzzy cd into any dir under a root, with preview
+fcd() {
+  local dir
+  dir=$(fd --type d . "${1:-.}" 2>/dev/null | fzf --preview 'eza --tree --level=2 {}') && cd "$dir"
+}
+
+# mkcd — mkdir + cd in one step
+mkcd() { mkdir -p "$1" && cd "$1"; }
+
+# extract — universal archive extraction
+extract() {
+  case "$1" in
+    *.tar.gz|*.tgz) tar xzf "$1" ;;
+    *.tar.bz2) tar xjf "$1" ;;
+    *.zip) unzip "$1" ;;
+    *.tar) tar xf "$1" ;;
+    *) echo "unknown archive type" ;;
+  esac
+}
+
+# gcof — fuzzy git checkout across local + remote branches, with commit preview
+gcof() {
+  local branch
+  branch=$(git branch -a --format='%(refname:short)' |
+    grep -v HEAD | sed 's#^origin/##' | sort -u |
+    fzf --preview 'git log --color=always --oneline -20 {}') && git checkout "$branch"
+}
+
+# gdiff — fuzzy-pick a changed file and view its diff, paginated with bat
+gdiff() {
+  local file
+  file=$(git diff --name-only "$@" | fzf --preview "git diff --color=always $* -- {}") && \
+    git diff --color=always "$@" -- "$file" | less -R
+}
+
+# fdocker — fuzzy exec into a running container
+fdocker() {
+  local cid
+  cid=$(docker ps --format '{{.ID}} {{.Names}} {{.Image}}' | fzf | awk '{print $1}')
+  [ -n "$cid" ] && docker exec -it "$cid" ${SHELL:-/bin/bash}
+}
+
+# fdlogs — fuzzy-follow logs of a running container
+fdlogs() {
+  local cid
+  cid=$(docker ps --format '{{.ID}} {{.Names}} {{.Image}}' | fzf | awk '{print $1}')
+  [ -n "$cid" ] && docker logs -f "$cid"
+}

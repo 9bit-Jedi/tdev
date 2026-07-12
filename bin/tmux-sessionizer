@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+selected=$(find ~/dev ~/codingal/ ~/ -mindepth 0 -maxdepth 1 -type d 2>/dev/null | fzf)
+[ -z "$selected" ] && exit 0
+
+selected_name=$(basename "$selected" | tr '.' '_')
+tmux_running=$(pgrep tmux)
+
+# If session doesn't exist, create it and bootstrap it
+if ! tmux has-session -t "$selected_name" 2>/dev/null; then
+
+    # Create first window (edit)
+    tmux new-session -ds "$selected_name" \
+        -n edit \
+        -c "$selected"
+
+    tmux send-keys -t "$selected_name":edit 'nvim' C-m
+
+    # Window 2: shell
+    tmux new-window \
+        -t "$selected_name" \
+        -n shell \
+        -c "$selected"
+
+    tmux split-window \
+        -t "$selected_name":shell \
+        -v \
+        -c "$selected"
+
+    tmux send-keys -t "$selected_name":shell.2 'lazygit' C-m
+
+    tmux select-pane -t "$selected_name":shell.1
+
+    # Window 3: run
+    tmux new-window \
+        -t "$selected_name" \
+        -n run \
+        -c "$selected"
+
+    # Leave empty or automatically start something:
+    # tmux send-keys -t "$selected_name":run 'npm run dev' C-m
+
+    # Window 4: agent
+    tmux new-window \
+        -t "$selected_name" \
+        -n agent \
+        -c "$selected"
+
+    tmux send-keys -t "$selected_name":agent 'agy' C-m
+
+    # Go back to edit window
+    tmux select-window -t "$selected_name":edit
+fi
+
+# Attach/switch
+
+if [ -z "$TMUX" ] && [ -z "$tmux_running" ]; then
+    exec tmux attach -t "$selected_name"
+fi
+
+if [ -z "$TMUX" ]; then
+    exec tmux attach -t "$selected_name"
+else
+    tmux switch-client -t "$selected_name"
+fi

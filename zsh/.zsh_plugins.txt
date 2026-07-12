@@ -1,0 +1,8 @@
+# ZSH Plugins managed by Antidote
+# Add plugins one per line, following the format: user/repo
+
+romkatv/zsh-defer
+romkatv/powerlevel10k
+zdharma-continuum/fast-syntax-highlighting
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-completions
