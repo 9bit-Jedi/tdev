@@ -114,3 +114,6 @@ if [[ -x "$HOME/miniconda3/bin/conda" ]]; then
   fi
   unset __conda_setup
 fi
+
+# bun completions
+[ -s "/home/utsah/.bun/_bun" ] && source "/home/utsah/.bun/_bun"
