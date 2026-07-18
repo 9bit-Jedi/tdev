@@ -503,8 +503,6 @@ require("lazy").setup({
 
         { "github/copilot.vim" },
 
-        { "wakatime/vim-wakatime", lazy = false },
-
         {
             "christoomey/vim-tmux-navigator",
             cmd = {
