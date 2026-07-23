@@ -9,6 +9,15 @@ git clone https://github.com/9bit-Jedi/tdev.git ~/tdev
 ~/tdev/install.sh
 ```
 
+### Obsidian Vault
+
+Go to root of any desired obsidian vault and run the following : 
+
+```bash
+# ln -s /path/to/tdev/.obsidian/ ${pwd}/.obsidian/
+ln -s $HOME/tdev/.obsidian/ "$(pwd)/.obsidian"
+```
+
 Prompts per tool (zsh, tmux, nvim, aliases, fzf, bin) so you can skip what you don't want. Pass `-y` to accept everything non-interactively. Anything already in your `$HOME` gets backed up to `~/.tdev-backup-<timestamp>/` before being replaced.
 
 ## Structure
