@@ -97,18 +97,18 @@ if confirm "Install core CLI tools via your package manager ($OS_FAMILY)?"; then
   case "$OS_FAMILY" in
     arch)
       install_system_pkgs git curl unzip ripgrep base-devel fontconfig \
-        neovim tmux zsh eza bat fd fzf zoxide xclip net-tools
+        neovim tmux zsh eza bat fd fzf xclip net-tools
       ;;
     debian)
       install_system_pkgs git curl unzip ripgrep build-essential fontconfig \
-        neovim tmux zsh eza bat fd-find fzf zoxide xclip net-tools
+        neovim tmux zsh eza bat fd-find fzf xclip net-tools
       ;;
     fedora)
       install_system_pkgs git curl unzip ripgrep gcc make fontconfig \
-        neovim tmux zsh eza bat fd-find fzf zoxide xclip net-tools
+        neovim tmux zsh eza bat fd-find fzf xclip net-tools
       ;;
     *)
-      warn "Unrecognized distro — install manually: git curl unzip ripgrep a C toolchain (gcc+make) fontconfig neovim tmux zsh eza bat fd fzf zoxide xclip net-tools"
+      warn "Unrecognized distro — install manually: git curl unzip ripgrep a C toolchain (gcc+make) fontconfig neovim tmux zsh eza bat fd fzf xclip net-tools"
       ;;
   esac
 else
@@ -191,7 +191,7 @@ fi
 section "shell aliases & functions"
 if confirm "Install .aliases?"; then
   link "$BASE/aliases/.aliases" "$HOME/.aliases"
-  for tool in eza batcat fdfind rg zoxide fzf docker git; do
+  for tool in eza batcat fdfind rg fzf docker git; do
     command -v "$tool" >/dev/null 2>&1 || warn "'$tool' not found on PATH (used by .aliases)"
   done
 else

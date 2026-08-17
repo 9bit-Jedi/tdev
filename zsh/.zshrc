@@ -1,4 +1,4 @@
-# ~/.zshrc — general-purpose zsh config: Powerlevel10k + antidote + fzf + zoxide.
+# ~/.zshrc — general-purpose zsh config: Powerlevel10k + antidote + fzf.
 # Source lives in tdev/zsh/ — re-run tdev/install.sh after editing there.
 
 # Enable Powerlevel10k instant prompt. Must stay near the top of this file.
@@ -42,12 +42,6 @@ if command -v fzf >/dev/null 2>&1; then
   fi
 
   [[ -f "$HOME/.local/share/fzf-git/fzf-git.sh" ]] && source "$HOME/.local/share/fzf-git/fzf-git.sh"
-fi
-
-# ---- zoxide (after fzf) ----
-if command -v zoxide >/dev/null 2>&1; then
-  eval "$(zoxide init zsh)"
-  alias cd='z'   # `command cd` still works as an escape hatch
 fi
 
 # ---- History ----

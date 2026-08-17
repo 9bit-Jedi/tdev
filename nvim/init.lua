@@ -394,9 +394,15 @@ require("lazy").setup({
 
         {
             "nvim-treesitter/nvim-treesitter",
+            -- master branch: `main` requires nvim 0.12 (uses vim.list). Bump when nvim >= 0.12.
+            branch = "master",
             build = ":TSUpdate",
+            man = "nvim-treesitter.configs",
             opts = {
-                ensure_installed = { "lua", "python", "javascript", "typescript", "html", "css", "json", "elm" },
+                ensure_installed = {
+                    "lua", "python", "javascript", "typescript", "html", "css", "json", "elm",
+                    "vim", "vimdoc", "bash", "markdown", "markdown_inline",
+                },
                 highlight = { enable = true, additional_vim_regex_highlighting = false },
             },
         },
@@ -597,10 +603,18 @@ require("lazy").setup({
             event = "VeryLazy",
             opts = {},
         },
-
-
-
-
+	{
+	    "karb94/neoscroll.nvim",
+	    config = function()
+	      require('neoscroll').setup({
+		mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', '<C-e>', 'zt', 'zz', 'zb' },
+		hide_cursor = true,
+		stop_eof = true,
+		easing = "linear",
+		duration_multiplier = 0.15,
+	      })
+	    end
+	  },
     },
 
     -- Configure any other settings here. See the documentation for more details.
