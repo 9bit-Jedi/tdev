@@ -17,8 +17,7 @@ alias glog='git log --oneline'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gamend='git commit --amend --no-edit'
-alias gundo='git reset --soft HEAD~1'
-
+alias grs='git restore --staged .'
 alias gw='git worktree'
 alias gwl='git worktree list'
 alias gwa='git worktree add'
@@ -26,6 +25,7 @@ alias gwr='git worktree remove'
 
 alias cc='claude'
 alias ccr='claude --resume'
+alias cctemp='claude --resume "temp"'
 
 # _gwt_dirname <branch> — turn a branch name into a safe worktree dir suffix:
 # slashes -> dashes, anything else unsafe stripped, no leading/trailing dash.

@@ -111,3 +111,4 @@ fi
 
 # bun completions
 [ -s "/home/utsah/.bun/_bun" ] && source "/home/utsah/.bun/_bun"
+export LESS='-R'
