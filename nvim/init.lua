@@ -68,6 +68,9 @@ vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
 vim.keymap.set("v", "<leader>y", '"+y', opts)
 vim.keymap.set("n", "<leader>wy", 'viw"+y', opts)
 
+-- Search current file for visually selected text
+vim.keymap.set("v", "//", [[y/\V<C-R>=escape(@", '/\')<CR><CR>]], opts)
+
 -- Disable arrow keys
 vim.keymap.set("", "<up>", "<nop>", opts)
 vim.keymap.set("", "<down>", "<nop>", opts)
@@ -440,6 +443,9 @@ require("lazy").setup({
             event = "VeryLazy",
             opts = {
                 enabled = true, -- if you want to enable the plugin
+            },
+            keys = {
+                { "<leader>go", "<cmd>GitBlameOpenCommitURL<cr>", desc = "Blame: open commit (-> PR) on GitHub" },
             },
         },
 

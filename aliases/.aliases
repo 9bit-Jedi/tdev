@@ -168,6 +168,7 @@ alias drmi='docker rmi'
 alias dexec='docker exec -it'
 alias dlogs='docker logs -f'
 alias ddown='docker stop $(dps -qa) && docker rm $(dps -qa)'
+alias cgpy='dc exec api python manage.py shell_plus'
 
 # Django (Python)
 alias dj='python manage.py'

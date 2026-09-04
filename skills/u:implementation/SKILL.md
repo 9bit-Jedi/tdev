@@ -7,7 +7,7 @@ description: Implement a Linear issue end-to-end via worktree, plan approval, fo
 
 1. Read the Linear issue and understand its requirements, context, and acceptance criteria.
 
-2. Create a new worktree using `gwa` (alias for `git worktree add`).
+2. Create a new local branch and worktree using `gwa` (alias for `git worktree add`).
 
    * Branch/worktree name: `<LINEAR-ID>-<two-word-context>`
    * Keep the context short and unique.
