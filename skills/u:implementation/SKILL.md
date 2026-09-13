@@ -12,6 +12,7 @@ description: Implement a Linear issue end-to-end via worktree, plan approval, fo
    * Branch/worktree name: `<LINEAR-ID>-<two-word-context>`
    * Keep the context short and unique.
    * Branch and worktree must use the same name.
+   * Move the current claude conversation to the new worktree. Use `mv /home/utsah/.claude/projects/-home-utsah-codingal-main/<CLAUDE_SESSION_ID-uuid>.jsonl /home/utsah/.claude/projects/<new-worktree-folder-name>/`. If sister folder doesn't exist, use mkdir.
 
 3. Before coding, inspect the relevant code and produce a very short implementation plan using Ponytail Ultra:
 

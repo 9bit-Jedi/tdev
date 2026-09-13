@@ -68,9 +68,6 @@ vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
 vim.keymap.set("v", "<leader>y", '"+y', opts)
 vim.keymap.set("n", "<leader>wy", 'viw"+y', opts)
 
--- Search current file for visually selected text
-vim.keymap.set("v", "//", [[y/\V<C-R>=escape(@", '/\')<CR><CR>]], opts)
-
 -- Disable arrow keys
 vim.keymap.set("", "<up>", "<nop>", opts)
 vim.keymap.set("", "<down>", "<nop>", opts)
@@ -270,6 +267,14 @@ require("lazy").setup({
                 local builtin = require("telescope.builtin")
                 vim.keymap.set("n", "<leader>ff", builtin.find_files)
                 vim.keymap.set("n", "<leader>fg", builtin.live_grep)
+                vim.keymap.set("n", "<leader>/", builtin.grep_string)
+                vim.keymap.set("v", "<leader>/", function()
+                    local old_reg = vim.fn.getreg("v")
+                    vim.cmd('noautocmd normal! "vy')
+                    local selection = vim.fn.getreg("v")
+                    vim.fn.setreg("v", old_reg)
+                    builtin.live_grep({ default_text = selection })
+                end)
                 vim.keymap.set("n", "<leader>fb", builtin.buffers)
                 vim.keymap.set("n", "<leader>fh", builtin.help_tags)
                 vim.keymap.set("n", "<leader>rr", builtin.lsp_references)
