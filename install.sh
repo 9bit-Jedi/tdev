@@ -234,6 +234,14 @@ fi
 DISABLED
 
 # ---------------------------------------------------------------------------
+section "claude statusline"
+if confirm "Install Claude Code statusline?"; then
+  link "$BASE/.claude/statusline.sh" "$HOME/.claude/statusline.sh"
+else
+  skip "statusline"
+fi
+
+# ---------------------------------------------------------------------------
 section "claude skills"
 if confirm "Install Claude Code skills?"; then
   mkdir -p "$HOME/.claude/skills"

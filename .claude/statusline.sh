@@ -8,16 +8,16 @@ C_MODEL=$'\033[36m' C_EFF=$'\033[2;36m' C_BR=$'\033[32m' C_WT=$'\033[33m' C_DIR=
 C_ADD=$'\033[32m' C_DEL=$'\033[31m' C_COST=$'\033[33m' C_DIM=$'\033[2m' R=$'\033[0m'
 sep=" ${C_DIM}│${R} "
 
-IFS=$'\t' read -r model cwd tpath cost < <(jq -r '[
+IFS=$'\t' read -r model cwd cost effort tpath < <(jq -r '[
   (.model.display_name // "?"),
   (.workspace.current_dir // .cwd // "."),
-  (.transcript_path // ""),
-  (.cost.total_cost_usd // 0)
+  (.cost.total_cost_usd // 0),
+  (.effort.level // "default"),
+  (.transcript_path // "")
 ] | @tsv' <<<"$input")
 
-# effort + context window come from settings, not the statusLine payload
+# context window still comes from settings
 settings=~/.claude/settings.json
-effort=$(jq -r '.effortLevel // "default"' "$settings" 2>/dev/null)
 win=200000; [[ "$(jq -r '.model // ""' "$settings" 2>/dev/null)" == *"[1m]"* ]] && win=1000000
 
 human() { local n=$1; if (( n >= 1000000 )); then printf '%.1fM' "$((n/100000))e-1"; elif (( n >= 1000 )); then printf '%dk' "$((n/1000))"; else printf '%d' "$n"; fi }
