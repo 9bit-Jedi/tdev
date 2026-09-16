@@ -112,3 +112,9 @@ fi
 # bun completions
 [ -s "/home/utsah/.bun/_bun" ] && source "/home/utsah/.bun/_bun"
 export LESS='-R'
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/utsah/google-cloud-sdk/path.zsh.inc' ]; then . '/home/utsah/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/utsah/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/utsah/google-cloud-sdk/completion.zsh.inc'; fi
