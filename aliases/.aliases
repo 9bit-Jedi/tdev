@@ -137,8 +137,12 @@ alias ll='eza -alF --git --icons'
 alias la='eza -A --icons'
 alias l='eza --icons'
 alias lt='eza --tree --level=2 --icons'
-alias cat='batcat --paging=never'
-alias fd='fdfind'
+# bat/fd ship under different binary names per distro (Debian/Ubuntu: batcat,
+# fdfind — because `bat` and `fd` are taken by other packages there; Arch: bat,
+# fd). Probe for the binary instead of detecting the OS, Debian name first.
+_bin=$(command -v batcat || command -v bat) && alias cat="$_bin --paging=never"
+_bin=$(command -v fdfind || command -v fd)  && alias fd="$_bin"
+unset _bin
 
 alias c='clear'
 alias h='history'
