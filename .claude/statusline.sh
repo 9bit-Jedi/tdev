@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# Claude Code status line, 1 line: [model·effort] 📁 dir 🌿 branch(⑂ worktree) │ ▓▓░ ctx% │ 💰 cost │ ✎ diff
+# Claude Code status line, 1 line: [model·effort] │ ▓▓░ ctx% │ 💰 cost │ ✎ diff │ 🌿 branch(⑂ worktree) 📁 dir
 
 emulate -L zsh
 input=$(cat)
@@ -22,13 +22,15 @@ win=200000; [[ "$(jq -r '.model // ""' "$settings" 2>/dev/null)" == *"[1m]"* ]] 
 
 human() { local n=$1; if (( n >= 1000000 )); then printf '%.1fM' "$((n/100000))e-1"; elif (( n >= 1000 )); then printf '%dk' "$((n/1000))"; else printf '%d' "$n"; fi }
 
-parts=("${C_DIM}[${R}${C_MODEL}${model}${R}${C_EFF}·${effort}${R}${C_DIM}]${R} 📁 ${C_DIR}${cwd:t}${R}")
+parts=("${C_DIM}[${R}${C_MODEL}${model}${R}${C_EFF}·${effort}${R}${C_DIM}]${R}")
 
+dirbr=""
 if git -C "$cwd" rev-parse --is-inside-work-tree &>/dev/null; then
   br=$(git -C "$cwd" symbolic-ref --short HEAD 2>/dev/null || git -C "$cwd" rev-parse --short HEAD 2>/dev/null)
   wt=""; [[ "$(git -C "$cwd" rev-parse --git-dir 2>/dev/null)" == *"/worktrees/"* ]] && wt=" ${C_WT}⑂${R}"
-  parts[-1]+=" 🌿 ${C_BR}${br}${R}${wt}"
+  dirbr+="🌿 ${C_BR}${br}${R}${wt} "
 fi
+dirbr+="📁 ${C_DIR}${cwd:t}${R}"
 
 # context bar from last assistant usage in transcript
 if [[ -f "$tpath" ]]; then
@@ -52,5 +54,7 @@ if [[ -n "$stat" ]]; then
   num() { local n=$(grep -oE "[0-9]+ $1" <<<"$stat" | grep -oE '^[0-9]+'); print -- "${n:-0}"; }
   parts+=("✎ ${C_ADD}+$(num insertion)${R}/${C_DEL}-$(num deletion)${R}")
 fi
+
+parts+=("$dirbr")
 
 print -rn -- "${(j: │ :)parts}"
