@@ -134,6 +134,7 @@ alias agp='agy -p'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ll='eza -alF --git --icons'
+alias llg='ll | grep'
 alias la='eza -A --icons'
 alias l='eza --icons'
 alias lt='eza --tree --level=2 --icons'
@@ -181,6 +182,8 @@ alias djmmig='python manage.py makemigrations'
 alias djmig='python manage.py migrate'
 alias djs='python manage.py shell'
 alias djt='python manage.py test'
+
+alias ssh-office='ssh -i /home/utsah/.ssh/id_ed25519 'utsah@100.109.218.55''
 
 alias zshrc="source ~/.zshrc"
 
