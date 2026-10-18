@@ -9,10 +9,9 @@ description: Implement a Linear issue end-to-end via worktree, plan approval, fo
 
 2. Create a new local branch and worktree using `gwa` (alias for `git worktree add`).
 
-   * Branch/worktree name: `<LINEAR-ID>-<two-word-context>`
+   * Branch/worktree name: `<LINEAR-ID>-<four-word-context>`
    * Keep the context short and unique.
    * Branch and worktree must use the same name.
-   * Move the current claude conversation to the new worktree. Use `mv /home/utsah/.claude/projects/-home-utsah-codingal-main/<CLAUDE_SESSION_ID-uuid>.jsonl /home/utsah/.claude/projects/<new-worktree-folder-name>/`. If sister folder doesn't exist, use mkdir.
 
 3. Before coding, inspect the relevant code and produce a very short implementation plan using Ponytail Ultra:
 
@@ -43,5 +42,7 @@ description: Implement a Linear issue end-to-end via worktree, plan approval, fo
 
    * At the end, suggest a commit message in this format:
    * `<LINEAR-ID>: <8-20 words describing the major changes>`
+
+9. Copy the current claude conversation to the new worktree. Use `cp ~/.claude/projects/-home-utsah-codingal-main/<CLAUDE_SESSION_ID-uuid>* ~/.claude/projects/<new-worktree-folder-name>/`. If sister folder doesn't exist, use mkdir.
 
 Core rule: Understand → Inspect → Plan → Get approval → Implement → Validate → Suggest commit message.
